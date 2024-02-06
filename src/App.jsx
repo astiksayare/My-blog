@@ -1,13 +1,56 @@
 
+import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { Outlet } from "react-router-dom";
+import { login, logout } from "./store/authSlice";
+import { Header, Footer } from "./components/index";
 
+import authService from "./appwrite/auth";
 const App = () => {
-  return (
-    <>
-    <h1 className="text-center text-4xl font-bold text-blue-500 mt-20">Hello World</h1>
-    <h1 className="text-center text-4xl font-bold text-blue-500 mt-20">{import.meta.env.VITE_APPWRITE_URL}</h1>
-    <h1 className="text-center text-4xl font-bold text-blue-500 mt-20">{import.meta.env.VITE_APPWRITE_PROJECT_ID}</h1>
-    </>
+  
+  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+
+  // useEffect to check weather user has login or not.
+  useEffect(() => {
+    authService.getCurrentUser()
+      .then((userData) => {
+
+        if (userData){
+
+          // disptach login
+          dispatch(login({userData}))
+        }else {
+
+          //dispatch logout
+          dispatch(logout())
+        }
+
+      })
+
+      .catch((error) => {
+        console.log("There is an error in the App.jsx file: "+error);
+      })
+
+      .finally(() => setLoading(false))
+
+  }, [])
+
+  return !loading ?
+  (
+    <div className='min-h-screen flex flex-wrap content-between bg-indigo-300'>
+      <div className='w-full block'>
+        <Header />
+        <main>
+        TODO:  <Outlet />
+        </main>
+        <Footer />
+      </div>
+    </div>
   )
+  :
+
+  null
 }
 
 export default App;
