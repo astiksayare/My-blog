@@ -37,6 +37,7 @@ const App = () => {
   }, [])
 
   return !loading ?
+  // First Condition.
   (
     <div className='min-h-screen flex flex-wrap content-between bg-indigo-300'>
       <div className='w-full block'>
@@ -48,8 +49,9 @@ const App = () => {
       </div>
     </div>
   )
-  :
 
+  :
+  // Else Second Condition.
   null
 }
 
