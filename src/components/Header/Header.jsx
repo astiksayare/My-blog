@@ -14,31 +14,31 @@ const Header = () => {
     const navItems = [
         {
             name: "Home",
-            urlPath: "/",
+            slug: "/",
             active: true
         },
 
         {
             name: "Login",
-            urlPath: "/login",
+            slug: "/login",
             active: !authStatus
         },
 
         {
             name: "Signup",
-            urlPath: "/signup",
+            slug: "/signup",
             active: !authStatus
         },
 
         {
             name: "All Posts",
-            urlPath: "/all-posts",
+            slug: "/all-posts",
             active: authStatus
         },
 
         {
             name: "Add Post",
-            urlPath: "/add-post",
+            slug: "/add-post",
             active: authStatus
         }
     ]
@@ -63,7 +63,7 @@ const Header = () => {
                                 <li key={items.name}>
                                     <button
                                      className='inline-bock px-6 py-2 duration-200 hover:bg-blue-100 rounded-full'
-                                     onClick={() => navigate(items.urlPath)}
+                                     onClick={() => navigate(items.slug)}
                                     >{items.name}</button>
                                 </li>
                             )
