@@ -17,13 +17,14 @@ export class Service {
     }
 
     // Method to create the appwrite document.
-    async createPost({title, content, featuredImage, status, userID, slug}) {
+    async createPost({title, slug, content, featuredImage, status, userID}) {
+        
         try {
             return await this.databases.createDocument(conf.appwriteDatabaseID, conf.appwriteCollectionID, slug, {
-                title,
+                title, 
                 content,
-                status,
                 featuredImage,
+                status, 
                 userID,
             })
         } catch (error) {

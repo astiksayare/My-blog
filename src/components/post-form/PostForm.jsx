@@ -1,12 +1,13 @@
 
 import React, { useCallback } from "react";
 import { useForm } from "react-hook-form";
-import { Button, Input, RTE, Select } from "..";
+import { Button, Input, RTE, Select } from "../index";
 import appwriteService from "../../appwrite/config";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 export default function PostForm({ post }) {
+
     const { register, handleSubmit, watch, setValue, control, getValues } = useForm({
         defaultValues: {
             title: post?.title || "",
@@ -19,9 +20,12 @@ export default function PostForm({ post }) {
     const navigate = useNavigate();
     const userData = useSelector((state) => state.auth.userData);
 
-    const submit = async (data) => {
+  
+      const submit = async (data) => {
         if (post) {
             const file = data.image[0] ? await appwriteService.uploadFile(data.image[0]) : null;
+        
+            console.log("first")
 
             if (file) {
                 appwriteService.deleteFile(post.featuredImage);
@@ -37,12 +41,11 @@ export default function PostForm({ post }) {
             }
         } else {
             const file = await appwriteService.uploadFile(data.image[0]);
-
-            if (file) {
+                console.log("Second")
+                if (file) {
                 const fileId = file.$id;
                 data.featuredImage = fileId;
-                const dbPost = await appwriteService.createPost({ ...data, userId: userData.$id });
-
+                const dbPost = await appwriteService.createPost({ ...data, userID: userData.$id });
                 if (dbPost) {
                     navigate(`/post/${dbPost.$id}`);
                 }
